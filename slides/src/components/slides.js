@@ -53,7 +53,7 @@ function Body({ film }) {
   )
 }
 
-function ButtonBar({ maxIndex }, { index }, { setIndex }) {
+function ButtonBar({ maxIndex, setIndex, index }) {
   return (
     <div className="button-ba d-flex justify-content-center">
       <StartOverButton setIndex={setIndex} />
@@ -71,14 +71,16 @@ function StartOverButton({ setIndex }) {
   )
 }
 
-function BackButton({ maxIndex }, { index }, { setIndex }) {
-  let handleBack = () => {
+function BackButton({ maxIndex, index, setIndex }) {
+
+  function handleBack() {
+    console.log(index)
     index -= 1;
-    if (index < 0) {
-      index = maxIndex
+    if (index = 0) {
+      return setIndex(maxIndex)
     }
-    
-    return setIndex( index )
+    return setIndex(prevCount => prevCount - 1)
+    console.log(index)
   }
 
   return (
@@ -88,14 +90,15 @@ function BackButton({ maxIndex }, { index }, { setIndex }) {
   )
 }
 
-function NextButton({ maxIndex }, { index }, { setIndex }) {
-  let handleNext = () => {
+function NextButton({ maxIndex, index, setIndex }) {
+  function handleNext() {
+    console.log(index)
     index += 1;
     if (index > maxIndex) {
-      index = 0
+      return setIndex(0)
     }
-    
-    return setIndex( index )
+    console.log(index)
+    return setIndex(prevCount => prevCount + 1)
   }
   return (
     <button type="button" className="mx-2 btn btn-primary">
@@ -103,3 +106,4 @@ function NextButton({ maxIndex }, { index }, { setIndex }) {
     </button>
   )
 }
+ 
