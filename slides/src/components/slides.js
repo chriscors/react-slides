@@ -56,16 +56,16 @@ function Body({ film }) {
 function ButtonBar({ maxIndex, setIndex, index }) {
   return (
     <div className="button-ba d-flex justify-content-center">
-      <StartOverButton setIndex={setIndex} />
+      <StartOverButton setIndex={setIndex} index={index} />
       <BackButton maxIndex = { maxIndex } index ={index} setIndex={setIndex} />
       <NextButton maxIndex = { maxIndex } index = {index} setIndex = {setIndex} />
     </div>
   )
 }
 
-function StartOverButton({ setIndex }) {
+function StartOverButton({ setIndex, index }) {
   return (
-    <button type="button" className="mx-2 btn btn-primary" onClick={() => setIndex(0)}>
+    <button type="button" className="mx-2 btn btn-primary" onClick={() => setIndex(0)} disabled={index === 0}>
       <FontAwesomeIcon icon={solid('arrow-rotate-left')} /> Start Over
     </button>
   )
@@ -74,17 +74,13 @@ function StartOverButton({ setIndex }) {
 function BackButton({ maxIndex, index, setIndex }) {
 
   function handleBack() {
+        console.log("BACK")
     console.log(index)
-    index -= 1;
-    if (index = 0) {
-      return setIndex(maxIndex)
-    }
-    return setIndex(prevCount => prevCount - 1)
-    console.log(index)
+    setIndex(index - 1)
   }
 
   return (
-    <button type="button" className="mx-2 btn btn-primary" onClick={handleBack()}>
+    <button type="button" className="mx-2 btn btn-primary" onClick={handleBack} disabled={index === 0}>
       <FontAwesomeIcon icon={solid('caret-left')} /> Back
     </button>
   )
@@ -92,17 +88,13 @@ function BackButton({ maxIndex, index, setIndex }) {
 
 function NextButton({ maxIndex, index, setIndex }) {
   function handleNext() {
+    console.log("FWD")
     console.log(index)
-    index += 1;
-    if (index > maxIndex) {
-      return setIndex(0)
-    }
-    console.log(index)
-    return setIndex(prevCount => prevCount + 1)
+    setIndex(index => index + 1)
   }
   return (
     <button type="button" className="mx-2 btn btn-primary">
-      Next <FontAwesomeIcon icon={solid('caret-right')} onClick={handleNext()} />
+      Next <FontAwesomeIcon icon={solid('caret-right')} onClick={handleNext} disabled={index === maxIndex}/>
     </button>
   )
 }
