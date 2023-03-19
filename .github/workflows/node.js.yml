@@ -10,9 +10,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    working-directory:slides/
-
+  build: 
     runs-on: ubuntu-latest
 
     strategy:
@@ -23,6 +21,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
+      working-directory: slides/
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
