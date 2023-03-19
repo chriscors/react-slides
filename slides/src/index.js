@@ -8,11 +8,13 @@ import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
+  HashRouter as Router,
+  createHashRouter,
 } from "react-router-dom";
 import ErrorPage from "./error-page";
 import Slide from "./components/slides.js";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Navigate replace to="/0" />,
