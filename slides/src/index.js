@@ -8,6 +8,7 @@ import {
   createBrowserRouter,
   RouterProvider,
   Navigate,
+  HashRouter as Router,
 } from "react-router-dom";
 import ErrorPage from "./error-page";
 import Slide from "./components/slides.js";
@@ -28,7 +29,9 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Router>
+      <RouterProvider router={router} />
+    </Router>
   </React.StrictMode>
 );
 
