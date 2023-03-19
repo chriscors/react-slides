@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { useParams, Link, redirect, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate } from "react-router-dom";
 import films from "./film-data.json";
 
 
@@ -96,29 +96,21 @@ function StartOverButton({ ind }) {
   
 }
 
-function BackButton({ maxIndex, ind, setIndex }) {
+function BackButton({ ind }) {
 
-  function handleBack() {
-    console.log(ind)
-    setIndex(ind - 1)
-  }
   if (ind !== 0) {
     return (
       <Link to={`/${ind - 1}`} className="mx-2 btn btn-primary" key={ind - 1}>
         <FontAwesomeIcon icon={solid('caret-left')} /> Back
       </Link>)
   } return (
-      <button type="button" className="mx-2 btn btn-primary" onClick={handleBack} disabled={true}>
+      <button type="button" className="mx-2 btn btn-primary" disabled={true}>
         <FontAwesomeIcon icon={solid('caret-left')} /> Back
       </button> 
   )
 }
 
-function NextButton({ maxIndex, ind, setIndex }) {
-  function handleNext() {
-    console.log(ind)
-    setIndex(ind + 1)
-  }
+function NextButton({ maxIndex, ind }) {
   if (ind !== maxIndex) {
     return (
       <Link to={`/${ind + 1}`} disabled={ind === maxIndex} key={ind+1} className="mx-2 btn btn-primary">
@@ -132,7 +124,8 @@ function NextButton({ maxIndex, ind, setIndex }) {
   )
 }
  
-function Select() {
+function Select(ind) {
+  const currentFilm = films[ind]
   function handleSelect(film) {
     
   }
@@ -140,9 +133,7 @@ function Select() {
   return (
     <>
       <select name="select-film" id="selectFilm" className="form-select">
-        {films.map() => {
-          <op
-        }}
+        {films.map(film => <option >{film.title})</option>)}
       </select>
     </>
   )
