@@ -9,11 +9,12 @@ import {
   RouterProvider,
   Navigate,
   HashRouter as Router,
+  createHashRouter,
 } from "react-router-dom";
 import ErrorPage from "./error-page";
 import Slide from "./components/slides.js";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <Navigate replace to="/0" />,
@@ -29,9 +30,7 @@ const router = createBrowserRouter([
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <Router>
-      <RouterProvider router={router} />
-    </Router>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
