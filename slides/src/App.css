@@ -6,7 +6,8 @@
   text-align: center;
 }
 
-.card {
+.card,
+.button-bar {
   max-width: 540px;
   margin: 0 auto;
 }

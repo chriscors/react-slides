@@ -1,27 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { useParams, Link, Navigate } from "react-router-dom";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import films from "./film-data.json";
 
 
 export default function Slide() {
   
   let { ind } = useParams();
-  console.log(useParams())
-  console.log(ind)
-  console.log({ind})
   ind = Number(ind)
-  //const [index, setIndex] = useState(ind);
   if (ind === null || ind > films.length - 1 || ind < 0) {
-    //setIndex(0)
-    console.log('redirect')
     return <Navigate  to="/0" key={0}/>
   }
-  console.log("CONTINUED ANYWAYS", ind, {ind})
-  //console.log(typeof index)
-  console.log(films)
-  console.log(ind)
   let film = films[ind];
   console.log(film)
 
@@ -74,9 +64,10 @@ function Body({ film }) {
 
 function ButtonBar({ maxIndex, ind }) {
   return (
-    <div className="button-ba d-flex justify-content-center">
+    <div className="button-bar d-flex justify-content-center">
       <StartOverButton ind = {ind}/>
       <BackButton maxIndex={maxIndex} ind={ind} />
+      <Select ind={ind} />
       <NextButton maxIndex = { maxIndex } ind={ind} />
     </div>
   )
@@ -124,16 +115,19 @@ function NextButton({ maxIndex, ind }) {
   )
 }
  
-function Select(ind) {
-  const currentFilm = films[ind]
-  function handleSelect(film) {
-    
+function Select({ ind }) {
+  const filmy = films[ind].title
+  console.log('select:', ind, filmy)
+  const navigate = useNavigate()
+  function handleSelect(filmTitle) {
+    let selectedIndex = films.map(film => film.title).indexOf(filmTitle)
+    navigate(`/${selectedIndex}`);
   }
 
   return (
     <>
-      <select name="select-film" id="selectFilm" className="form-select">
-        {films.map(film => <option >{film.title})</option>)}
+      <select name="select-film" id="selectFilm" className="form-select-sm" value={filmy} onChange={e=> handleSelect(e.target.value)}>
+        {films.map(film => <option value={film.title} key={film.title} >{film.title}</option>)}
       </select>
     </>
   )
