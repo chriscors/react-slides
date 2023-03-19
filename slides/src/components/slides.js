@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
-import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
+import { useParams, Link, Navigate, useNavigate, NavLink } from "react-router-dom";
 import films from "./film-data.json";
 
 
@@ -18,6 +18,7 @@ export default function Slide() {
 
   return (
     <>
+      {/* <NavBar/> */}
       <Title title={film.title} />
       <Card film={film} />
       <ButtonBar maxIndex={films.length - 1} ind={ind} />
@@ -53,12 +54,13 @@ function Image({ src }) {
 }
 
 function Body({ film }) {
-  return (
+  return (<>
     <div className="card-body">
       <h5 className="card-title">{film.original_title}</h5>
       <p className="card-text"><small className="text-muted">{film.release_date}</small></p>
       <p className="card-text">{film.description}</p>
     </div>
+    </>
   )
 }
 
@@ -114,6 +116,7 @@ function NextButton({ maxIndex, ind }) {
     </button>
   )
 }
+
  
 function Select({ ind }) {
   const filmy = films[ind].title
@@ -123,12 +126,26 @@ function Select({ ind }) {
     let selectedIndex = films.map(film => film.title).indexOf(filmTitle)
     navigate(`/${selectedIndex}`);
   }
+  function truncate(str, n){
+  return (str.length > n) ? str.slice(0, n-1) + '...' : str;
+};
 
   return (
     <>
-      <select name="select-film" id="selectFilm" className="form-select-sm" value={filmy} onChange={e=> handleSelect(e.target.value)}>
-        {films.map(film => <option value={film.title} key={film.title} >{film.title}</option>)}
+      <select name="select-film" id="selectFilm" className="mx-1 form-select-sm" value={filmy} onChange={e=> handleSelect(e.target.value)}>
+        {films.map(film => <option value={film.title} key={film.title} >{truncate(film.title, 25)}</option>)}
       </select>
     </>
   )
+}
+
+
+function NavBar() {
+  return (<>
+    <div className="navbar">
+      {films.map(film => {
+        return <NavLink to={`/${films.indexOf(film)}`} style={({ isActive }) => ({ color: isActive ? "red" : "black" })}>{film.title}</NavLink>
+      })}
+    </div>
+  </>)
 }
