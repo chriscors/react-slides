@@ -1,17 +1,36 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro'
+import { useParams, Link, redirect, Navigate } from "react-router-dom";
+import films from "./film-data.json";
 
-export default function Slide({ films }) {
-  const [index, setIndex] = useState(0);
 
-  let film = films[index];
+export default function Slide() {
+  
+  let { ind } = useParams();
+  console.log(useParams())
+  console.log(ind)
+  console.log({ind})
+  ind = Number(ind)
+  //const [index, setIndex] = useState(ind);
+  if (ind === null || ind > films.length - 1 || ind < 0) {
+    //setIndex(0)
+    console.log('redirect')
+    return <Navigate  to="/0" key={0}/>
+  }
+  console.log("CONTINUED ANYWAYS", ind, {ind})
+  //console.log(typeof index)
+  console.log(films)
+  console.log(ind)
+  let film = films[ind];
+  console.log(film)
+
 
   return (
     <>
       <Title title={film.title} />
       <Card film={film} />
-      <ButtonBar maxIndex = {films.length - 1} index={index} setIndex={setIndex} />
+      <ButtonBar maxIndex={films.length - 1} ind={ind} />
     </>
   );
 }
@@ -53,49 +72,78 @@ function Body({ film }) {
   )
 }
 
-function ButtonBar({ maxIndex, setIndex, index }) {
+function ButtonBar({ maxIndex, ind }) {
   return (
     <div className="button-ba d-flex justify-content-center">
-      <StartOverButton setIndex={setIndex} index={index} />
-      <BackButton maxIndex = { maxIndex } index ={index} setIndex={setIndex} />
-      <NextButton maxIndex = { maxIndex } index = {index} setIndex = {setIndex} />
+      <StartOverButton ind = {ind}/>
+      <BackButton maxIndex={maxIndex} ind={ind} />
+      <NextButton maxIndex = { maxIndex } ind={ind} />
     </div>
   )
 }
 
-function StartOverButton({ setIndex, index }) {
-  return (
-    <button type="button" className="mx-2 btn btn-primary" onClick={() => setIndex(0)} disabled={index === 0}>
-      <FontAwesomeIcon icon={solid('arrow-rotate-left')} /> Start Over
-    </button>
-  )
+function StartOverButton({ ind }) {
+  if (ind !== 0) {
+    return (
+      <Link to={'/0'} className="mx-2 btn btn-primary" key = {0}>
+        <FontAwesomeIcon icon={solid('arrow-rotate-left')} /> Start Over
+      </Link> )
+  } return (
+      <button type="button" className="mx-2 btn btn-primary" disabled={true}>
+        <FontAwesomeIcon icon={solid('arrow-rotate-left')} /> Start Over
+      </button>
+    )
+  
 }
 
-function BackButton({ maxIndex, index, setIndex }) {
+function BackButton({ maxIndex, ind, setIndex }) {
 
   function handleBack() {
-        console.log("BACK")
-    console.log(index)
-    setIndex(index - 1)
+    console.log(ind)
+    setIndex(ind - 1)
   }
-
-  return (
-    <button type="button" className="mx-2 btn btn-primary" onClick={handleBack} disabled={index === 0}>
-      <FontAwesomeIcon icon={solid('caret-left')} /> Back
-    </button>
+  if (ind !== 0) {
+    return (
+      <Link to={`/${ind - 1}`} className="mx-2 btn btn-primary" key={ind - 1}>
+        <FontAwesomeIcon icon={solid('caret-left')} /> Back
+      </Link>)
+  } return (
+      <button type="button" className="mx-2 btn btn-primary" onClick={handleBack} disabled={true}>
+        <FontAwesomeIcon icon={solid('caret-left')} /> Back
+      </button> 
   )
 }
 
-function NextButton({ maxIndex, index, setIndex }) {
+function NextButton({ maxIndex, ind, setIndex }) {
   function handleNext() {
-    console.log("FWD")
-    console.log(index)
-    setIndex(index => index + 1)
+    console.log(ind)
+    setIndex(ind + 1)
   }
-  return (
-    <button type="button" className="mx-2 btn btn-primary">
-      Next <FontAwesomeIcon icon={solid('caret-right')} onClick={handleNext} disabled={index === maxIndex}/>
+  if (ind !== maxIndex) {
+    return (
+      <Link to={`/${ind + 1}`} disabled={ind === maxIndex} key={ind+1} className="mx-2 btn btn-primary">
+        Next <FontAwesomeIcon icon={solid('caret-right')} />
+      </Link>
+    )
+  } return (
+    <button type="button"  disabled={true} className="mx-2 btn btn-primary">
+      Next <FontAwesomeIcon icon={solid('caret-right')}/>
     </button>
   )
 }
  
+function Select() {
+  function handleSelect(film) {
+    
+  }
+
+  return (
+    <>
+      <select name="select-film" id="selectFilm" className="form-select">
+        {films.map() => {
+          <op
+        }}
+      </select>
+    </>
+  )
+}

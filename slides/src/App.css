@@ -18,3 +18,8 @@
 img {
   object-fit: fill;
 }
+
+.card-body {
+  max-height: 336px;
+  overflow: scroll;
+}

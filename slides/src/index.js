@@ -4,11 +4,31 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.css";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
+import ErrorPage from "./error-page";
+import Slide from "./components/slides.js";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Navigate replace to="/0" />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/:ind",
+    element: <Slide />,
+    errorElement: <ErrorPage />,
+  },
+]);
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
